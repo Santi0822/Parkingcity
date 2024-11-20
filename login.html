@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Parking City</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #ffffff;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .login-container img {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #00b4db;
+            box-shadow: 0 0 8px rgba(0, 180, 219, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #0083b0, #00b4db);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            box-shadow: 0 4px 10px rgba(0, 179, 218, 0.5);
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="./Images/logo4.png" alt="Logo">
+        <h1>Bienvenido a Parking City</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Nombre de usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <div class="error" id="errorMsg">Credenciales incorrectas. Inténtalo nuevamente.</div>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+
+    <script>
+        const validUsers = [
+            { username: "admin", password: "admin123", role: "admin" },
+            { username: "user", password: "user123", role: "user" },
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const user = validUsers.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                sessionStorage.setItem('isLoggedIn', true);
+                sessionStorage.setItem('role', user.role);
+
+                if (user.role === "admin") {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "index.html";
+                }
+            } else {
+                document.getElementById('errorMsg').style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
