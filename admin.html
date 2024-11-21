@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador - Parking City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .form-section, .user-table-section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus, button:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .redirect-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .redirect-button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th, table td {
+            padding: 10px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Panel de Administración</h1>
+    </header>
+    <div class="container">
+        <!-- Formulario para Crear Usuarios -->
+        <div class="form-section">
+            <h2>Crear Usuario</h2>
+            <form id="createUserForm">
+                <label for="newUsername">Nombre de usuario</label>
+                <input type="text" id="newUsername" placeholder="Usuario" required>
+                
+                <label for="newPassword">Contraseña</label>
+                <input type="password" id="newPassword" placeholder="Contraseña" required>
+                
+                <label for="newRole">Rol</label>
+                <select id="newRole">
+                    <option value="admin">Administrador</option>
+                    <option value="user">Usuario</option>
+                </select>
+                
+                <button type="submit">Crear Usuario</button>
+            </form>
+        </div>
+
+        <!-- Tabla para listar usuarios -->
+        <div class="user-table-section">
+            <h2>Usuarios Registrados</h2>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los usuarios se agregarán dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botón para ir a funciones normales -->
+        <button class="redirect-button" onclick="redirectToIndex()">Ir a la Página Principal</button>
+    </div>
+    <footer>
+        © 2024 Parking City - Todos los derechos reservados.
+    </footer>
+
+    <script>
+        // Redirigir al index.html
+        function redirectToIndex() {
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+</html>
