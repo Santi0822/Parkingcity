@@ -60,25 +60,25 @@
             <form class="w-50 mx-auto" id="entryForm">
                 <div class="form-group">
                     <center><img src="./Images/logo4.png" width=210 alt="logo parking city"></center></br></br>
-                    <label for="owner">Dueño del Carro:</label>
+                    <label style="width: unset;" style="width: unset;" for="owner" >Dueño del Carro:</label>
                     <input type="text" class="form-control rounded-0 shadow-sm" id="owner" placeholder="Dueño del Carro">
                 </div>
                 <div class="form-group">
-                    <label for="carType">Tipo de Vehículo:</label>
+                    <label style="width: unset;" for="carType">Tipo de Vehículo:</label>
                     <select class="form-control rounded-0 shadow-sm" id="carType">
                         <option value="carro">Carro</option>
                         <option value="moto">Moto</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="licensePlate">Placa:</label>
+                    <label style="width: unset;" for="licensePlate">Placa:</label>
                     <input type="text" class="form-control rounded-0 shadow-sm" id="licensePlate" placeholder="NN-NN-LL,NN-LL-NN,....etc">
                 </div>
                 <div class="form-group">
-                    <label for="entryDate">Fecha y Hora de Entrada:</label>
+                    <label style="width: unset;" for="entryDate">Fecha y Hora de Entrada:</label>
                     <input type="datetime-local" class="form-control rounded-0 shadow-sm" id="entryDate">
                 </div>
-                <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Agregar Carro</button>
+                <button type="submit" class="w-100 btn btn-primary mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Agregar Carro</button>
             </form>
         </div>
 
@@ -87,7 +87,7 @@
             <h5 class="text-center mb-3">Búsqueda de Carros Parking City</h5>
             <input type="text" class="w-100 mb-3" id="searchInput" placeholder="Búsqueda...">
             <table class="table table-striped shadow" id="parkingTable">
-                <thead class="text-white" id="tableHead">
+                <thead class="text-white btn-primary" id="tableHead">
                     <tr>
                         <th scope="col">Dueño</th>
                         <th scope="col">Modelo</th>
@@ -110,23 +110,23 @@
         <div class="form-container w-50 mx-auto">
             <form id="exitForm">
                 <div class="form-group">
-                    <label for="selectedOwner">Dueño del Carro:</label>
+                    <label style="width: unset;" for="selectedOwner">Dueño del Carro:</label>
                     <input type="text" class="form-control" id="selectedOwner" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="selectedLicensePlate">Placa:</label>
+                    <label style="width: unset;" for="selectedLicensePlate">Placa:</label>
                     <input type="text" class="form-control" id="selectedLicensePlate" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="selectedEntryDate">Fecha y Hora de Entrada:</label>
+                    <label style="width: unset;" for="selectedEntryDate">Fecha y Hora de Entrada:</label>
                     <input type="text" class="form-control" id="selectedEntryDate" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="exitDate">Fecha y Hora de Salida:</label>
+                    <label style="width: unset;" for="exitDate">Fecha y Hora de Salida:</label>
                     <input type="datetime-local" class="form-control" id="exitDate" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Registrar Salida</button>
-                <button type="button" class="btn btn-secondary" onclick="hideExitForm()">Cancelar</button>
+                <button type="submit" class="w-100 btn btn-primary mx-auto d-block mt-5 rounded-0 shadow">Registrar Salida</button>
+                <button type="button" class="w-100 btn btn-secondary mx-auto d-block rounded-0 shadow" onclick="hideExitForm()">Cancelar</button>
             </form>
         </div>
     </div>
@@ -136,7 +136,7 @@
         <div class="modal-content">
             <h3>Realizar Pago</h3>
             <form id="pagoForm">
-                <label for="metodoPago">Método de Pago:</label>
+                <label style="width: unset;" for="metodoPago">Método de Pago:</label>
                 <select id="metodoPago" name="metodoPago" required onchange="mostrarDetallesPago()">
                     <option value="efectivo">Efectivo</option>
                     <option value="nequi">Nequi</option>
@@ -144,7 +144,7 @@
                     <option value="bancolombia">Bancolombia</option>
                 </select>
 
-                <label for="totalPagar">Total a Pagar:</label>
+                <label style="width: unset;" for="totalPagar">Total a Pagar:</label>
                 <input type="text" id="totalPagar" name="totalPagar" value="5000" readonly>
 
                 <div id="detalles-pago" style="display: none;">
@@ -212,6 +212,7 @@
             static showExitForm(entry) {
                 document.getElementById('exitFormContainer').style.display = 'block';
                 document.getElementById('entryFormContainer').style.display = 'none';
+                document.getElementById('tableContainer').style.display = 'none';
                 document.getElementById('selectedOwner').value = entry.owner;
                 document.getElementById('selectedLicensePlate').value = entry.licensePlate;
                 document.getElementById('selectedEntryDate').value = entry.entryDate;
@@ -339,13 +340,15 @@
         // Función para mostrar la ventana de pago y actualizar el total a pagar
         function mostrarFormularioPago(total) {
             document.getElementById('totalPagar').value = total; // Actualiza el campo de total a pagar
-            document.getElementById('formularioPago').style.display = 'block'; // Muestra la ventana de pago
+            document.getElementById('formularioPago').style.display = 'flex'; // Muestra la ventana de pago
         }
     
         // Registrar el pago
         function registrarPago() {
             UI.showAlert('Pago realizado con éxito', 'success');
             cerrarFormularioPago();
+            cerrarFormularioSalida();
+            abrirFormularioEntrada();
         }
     
         // Cerrar la ventana de pago
@@ -353,6 +356,14 @@
             document.getElementById('formularioPago').style.display = 'none';
         }
     
+         // Cerrar la ventana de pago
+         function cerrarFormularioSalida() {
+            document.getElementById('exitFormContainer').style.display = 'none';
+        }
+        function abrirFormularioEntrada(){
+            document.getElementById('entryFormContainer').style.display = 'block';
+            document.getElementById('tableContainer').style.display = 'block';
+        }
         // Mostrar detalles de cuenta para métodos de pago
         function mostrarDetallesPago() {
             document.getElementById('detalles-pago').style.display = 'block';
