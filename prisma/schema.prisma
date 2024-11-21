@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Pago {
   id_pago      Int      @id @default(autoincrement())
   id_parqueo   Int?     @map("id_parqueo")
-  monto        Decimal  @db.Decimal(10, 2)
+  monto        Decimal
   fecha_pago   DateTime
   parqueo      Parqueo? @relation(fields: [id_parqueo], references: [id_parqueo])
 
@@ -22,9 +22,8 @@ model Parqueo {
   placa        String   @unique @db.VarChar(10)
   hora_entrada DateTime
   hora_salida  DateTime?
-  costo_total  Decimal? @db.Decimal(10, 2)
+  costo_total  Decimal?
   pagos        Pago[]
-
 }
 
 model Reporte {
@@ -41,7 +40,7 @@ model Reporte {
 model Tarifa {
   id_tarifa          Int       @id @default(autoincrement())
   tipo_vehiculo      TipoVehiculo
-  tarifa_por_minuto  Decimal   @db.Decimal(10, 2)
+  tarifa_por_minuto  Decimal
   fecha_actualizacion DateTime @default(now())
 }
 
