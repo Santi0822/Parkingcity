@@ -55,34 +55,32 @@
     </header>
 
     <div id="main-content">
-        <!-- Formulario de Registro de Carros -->
         <div class="form-container mt-5" id="entryFormContainer">
             <form class="w-50 mx-auto" id="entryForm">
                 <div class="form-group">
                     <center><img src="./Images/logo4.png" width=210 alt="logo parking city"></center></br></br>
-                    <label style="width: unset;" style="width: unset;" for="owner" >Dueño del Carro:</label>
+                    <label for="owner">Dueño del Carro:</label>
                     <input type="text" class="form-control rounded-0 shadow-sm" id="owner" placeholder="Dueño del Carro">
                 </div>
                 <div class="form-group">
-                    <label style="width: unset;" for="carType">Tipo de Vehículo:</label>
+                    <label for="carType">Tipo de Vehículo:</label>
                     <select class="form-control rounded-0 shadow-sm" id="carType">
                         <option value="carro">Carro</option>
                         <option value="moto">Moto</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label style="width: unset;" for="licensePlate">Placa:</label>
-                    <input type="text" class="form-control rounded-0 shadow-sm" id="licensePlate" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+                    <label for="licensePlate">Placa:</label>
+                    <input type="text" class="form-control rounded-0 shadow-sm" id="licensePlate" placeholder="NN-NN-LL,NN-LL-NN,...">
                 </div>
                 <div class="form-group">
-                    <label style="width: unset;" for="entryDate">Fecha y Hora de Entrada:</label>
+                    <label for="entryDate">Fecha y Hora de Entrada:</label>
                     <input type="datetime-local" class="form-control rounded-0 shadow-sm" id="entryDate">
                 </div>
                 <button type="submit" class="w-100 btn btn-primary mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Agregar Carro</button>
             </form>
         </div>
 
-        <!-- Tabla de Carros -->
         <div class="table-container mt-5 mb-5 w-75 mx-auto" id="tableContainer">
             <h5 class="text-center mb-3">Búsqueda de Carros Parking City</h5>
             <input type="text" class="w-100 mb-3" id="searchInput" placeholder="Búsqueda...">
@@ -104,81 +102,11 @@
         </div>
     </div>
 
-    <!-- Formulario de Salida de Carro -->
-    <div id="exitFormContainer" style="display: none;">
-        <h1 class="text-center mt-5">Registrar Salida de Carro</h1>
-        <div class="form-container w-50 mx-auto">
-            <form id="exitForm">
-                <div class="form-group">
-                    <label style="width: unset;" for="selectedOwner">Dueño del Carro:</label>
-                    <input type="text" class="form-control" id="selectedOwner" readonly>
-                </div>
-                <div class="form-group">
-                    <label style="width: unset;" for="selectedLicensePlate">Placa:</label>
-                    <input type="text" class="form-control" id="selectedLicensePlate" readonly>
-                </div>
-                <div class="form-group">
-                    <label style="width: unset;" for="selectedEntryDate">Fecha y Hora de Entrada:</label>
-                    <input type="text" class="form-control" id="selectedEntryDate" readonly>
-                </div>
-                <div class="form-group">
-                    <label style="width: unset;" for="exitDate">Fecha y Hora de Salida:</label>
-                    <input type="datetime-local" class="form-control" id="exitDate" required>
-                </div>
-                <button type="submit" class="w-100 btn btn-primary mx-auto d-block mt-5 rounded-0 shadow">Registrar Salida</button>
-                <button type="button" class="w-100 btn btn-secondary mx-auto d-block rounded-0 shadow" onclick="hideExitForm()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Formulario de Pago -->
-    <div class="modal" id="formularioPago">
-        <div class="modal-content">
-            <h3>Realizar Pago</h3>
-            <form id="pagoForm">
-                <label style="width: unset;" for="metodoPago">Método de Pago:</label>
-                <select id="metodoPago" name="metodoPago" required onchange="mostrarDetallesPago()">
-                    <option value="efectivo">Efectivo</option>
-                    <option value="nequi">Nequi</option>
-                    <option value="daviplata">Daviplata</option>
-                    <option value="bancolombia">Bancolombia</option>
-                </select>
-
-                <label style="width: unset;" for="totalPagar">Total a Pagar:</label>
-                <input type="text" id="totalPagar" name="totalPagar" value="5000" readonly>
-
-                <div id="detalles-pago" style="display: none;">
-                    <p>Cuenta: 3222629338</p>
-                    <p>Titular: Santiago Pinzon</p>
-                </div>
-
-                <button type="button" onclick="registrarPago()">Pagar</button>
-                <button type="button" onclick="cerrarFormularioPago()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
     <script>
-        let selectedLicensePlate = null;
-
-        // Clases para manejar el almacenamiento de vehículos
-        class Entry {
-            constructor(owner, carType, licensePlate, entryDate) {
-                this.owner = owner;
-                this.carType = carType;
-                this.licensePlate = licensePlate;
-                this.entryDate = entryDate;
-            }
-        }
-
-        class UI {
-            static displayEntries() {
-                const entries = Store.getEntries();
-                entries.forEach((entry) => UI.addEntryToTable(entry));
-            }
-
-            static addEntryToTable(entry) {
-                const tableBody = document.querySelector('#tableBody');
+        // Define el objeto UI al inicio del script
+        const UI = {
+            addEntryToTable: function(entry) {
+                const tableBody = document.getElementById('tableBody');
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${entry.owner}</td>
@@ -186,215 +114,144 @@
                     <td>${entry.licensePlate}</td>
                     <td>${entry.entryDate}</td>
                     <td><button class="btn btn-danger btn-sm delete">Eliminar</button></td>
-                    <td><button class="btn btn-primary btn-sm exit">Salida</button></td>
+                    <td><button class="btn btn-success btn-sm exit">Registrar Salida</button></td>
                 `;
                 tableBody.appendChild(row);
+            },
+            deleteEntry: function(button) {
+                button.closest('tr').remove();
+            },
+            clearFields: function() {
+                document.getElementById('owner').value = '';
+                document.getElementById('carType').value = 'carro';
+                document.getElementById('licensePlate').value = '';
+                document.getElementById('entryDate').value = '';
             }
-
-            static clearInput() {
-                document.querySelectorAll('.form-control').forEach(input => input.value = "");
-            }
-
-            static deleteEntry(target) {
-                if (target.classList.contains('delete')) {
-                    target.parentElement.parentElement.remove();
-                }
-            }
-
-            static showAlert(message, className) {
-                const alert = document.createElement('div');
-                alert.className = `alert alert-${className}`;
-                alert.appendChild(document.createTextNode(message));
-                document.body.appendChild(alert);
-                setTimeout(() => alert.remove(), 3000);
-            }
-
-            static showExitForm(entry) {
-                document.getElementById('exitFormContainer').style.display = 'block';
-                document.getElementById('entryFormContainer').style.display = 'none';
-                document.getElementById('tableContainer').style.display = 'none';
-                document.getElementById('selectedOwner').value = entry.owner;
-                document.getElementById('selectedLicensePlate').value = entry.licensePlate;
-                document.getElementById('selectedEntryDate').value = entry.entryDate;
-                selectedLicensePlate = entry.licensePlate;
-            }
-
-            static hideExitForm() {
-                document.getElementById('exitFormContainer').style.display = 'none';
-                document.getElementById('entryFormContainer').style.display = 'block';
-            }
-
-            static updateTotal(total) {
-                document.getElementById('totalPagar').value = total;
-            }
-
-            static showPaymentForm() {
-                document.getElementById('formularioPago').style.display = 'block';
-            }
-
-            static closePaymentForm() {
-                document.getElementById('formularioPago').style.display = 'none';
-            }
-
-            static showPaymentDetails() {
-                document.getElementById('detalles-pago').style.display = 'block';
-            }
-        }
-
-        class Store {
-            static getEntries() {
-                return JSON.parse(localStorage.getItem('entries')) || [];
-            }
-
-            static addEntry(entry) {
-                const entries = Store.getEntries();
-                entries.push(entry);
-                localStorage.setItem('entries', JSON.stringify(entries));
-            }
-
-            static removeEntry(licensePlate) {
-                let entries = Store.getEntries();
-                entries = entries.filter(entry => entry.licensePlate !== licensePlate);
-                localStorage.setItem('entries', JSON.stringify(entries));
-            }
-        }
-
-        // Manejo de formularios
-        document.getElementById('entryForm').addEventListener('submit', (e) => {
+        };
+    
+        // Función para manejar el formulario
+        document.getElementById('entryForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const owner = document.getElementById('owner').value;
             const carType = document.getElementById('carType').value;
             const licensePlate = document.getElementById('licensePlate').value;
             const entryDate = document.getElementById('entryDate').value;
-
-            if (owner === '' || licensePlate === '') {
-                UI.showAlert('Por favor complete todos los campos', 'danger');
-            } else {
-                const entry = new Entry(owner, carType, licensePlate, entryDate);
-                UI.addEntryToTable(entry);
-                Store.addEntry(entry);
-                UI.clearInput();
-            }
-        });
-
-        // Manejo de eliminación de entradas
-        document.querySelector('#tableBody').addEventListener('click', (e) => {
-            UI.deleteEntry(e.target);
-            Store.removeEntry(e.target.parentElement.previousElementSibling.previousElementSibling.textContent);
-        });
-
-        // Manejo de salida de vehículo
-        document.querySelector('#tableBody').addEventListener('click', (e) => {
-            if (e.target.classList.contains('exit')) {
-                const row = e.target.parentElement.parentElement;
-                const owner = row.cells[0].textContent;
-                const carType = row.cells[1].textContent;
-                const licensePlate = row.cells[2].textContent;
-                const entryDate = row.cells[3].textContent;
-
-                const entry = new Entry(owner, carType, licensePlate, entryDate);
-                UI.showExitForm(entry);
-            }
-        });
-
-
-    </script>
-    <script>
-        // Mostrar la ventana de pago
-        function mostrarFormularioPago() {
-            UI.showPaymentForm();
-        }
     
-        // Registrar el pago
-        function registrarPago() {
-    UI.showAlert('Pago realizado con éxito', 'success');
-    cerrarFormularioPago(); // Oculta el formulario de pago
-    document.getElementById('exitFormContainer').style.display = 'none'; // Oculta el formulario de salida
-    document.getElementById('entryFormContainer').style.display = 'block'; // Muestra el formulario de entrada
-}
-
-    
-        // Cerrar la ventana de pago
-        function cerrarFormularioPago() {
-            UI.closePaymentForm();
-        }
-    
-        // Mostrar detalles de cuenta para métodos de pago
-        function mostrarDetallesPago() {
-            UI.showPaymentDetails();
-        }
-    
-        // Manejo de salida de vehículo
-        document.getElementById('exitForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-    
-            // Simplemente mostrar el formulario de pago sin cálculos
-            mostrarFormularioPago();
-        });
-    </script>
-    <script>
-        // Definir el costo por minuto
-        const COSTO_POR_MINUTO = 100;
-    
-        // Función para mostrar la ventana de pago y actualizar el total a pagar
-        function mostrarFormularioPago(total) {
-            document.getElementById('totalPagar').value = total; // Actualiza el campo de total a pagar
-            document.getElementById('formularioPago').style.display = 'flex'; // Muestra la ventana de pago
-        }
-    
-        // Registrar el pago
-        function registrarPago() {
-            UI.showAlert('Pago realizado con éxito', 'success');
-            cerrarFormularioPago();
-            cerrarFormularioSalida();
-            abrirFormularioEntrada();
-        }
-    
-        // Cerrar la ventana de pago
-        function cerrarFormularioPago() {
-            document.getElementById('formularioPago').style.display = 'none';
-        }
-    
-         // Cerrar la ventana de pago
-         function cerrarFormularioSalida() {
-            document.getElementById('exitFormContainer').style.display = 'none';
-        }
-        function abrirFormularioEntrada(){
-            document.getElementById('entryFormContainer').style.display = 'block';
-            document.getElementById('tableContainer').style.display = 'block';
-        }
-        // Mostrar detalles de cuenta para métodos de pago
-        function mostrarDetallesPago() {
-            document.getElementById('detalles-pago').style.display = 'block';
-        }
-    
-        // Manejo de salida de vehículo y cálculo de pago
-        document.getElementById('exitForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-    
-            // Obtener fecha de entrada y salida
-            const fechaEntrada = new Date(document.getElementById('selectedEntryDate').value);
-            const fechaSalida = new Date(document.getElementById('exitDate').value);
-    
-            // Verificar que la fecha de salida sea posterior a la de entrada
-            if (fechaSalida <= fechaEntrada) {
-                UI.showAlert('La fecha de salida debe ser posterior a la fecha de entrada', 'danger');
+            if (owner === '' || licensePlate === '' || entryDate === '') {
+                alert('Por favor complete todos los campos');
                 return;
             }
     
-            // Calcular el tiempo en minutos redondeando hacia arriba
-            const minutosEstadia = Math.ceil((fechaSalida - fechaEntrada) / (1000 * 60));
-            const total = minutosEstadia * COSTO_POR_MINUTO;
+            try {
+                const response = await fetch('https://backend-de-parking.onrender.com/parqueo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        placa: licensePlate,
+                        hora_entrada: entryDate,
+                        tipo_vehiculo: carType,
+                    }),
+                });
     
-            // Mostrar ventana emergente de pago con el total calculado
-            mostrarFormularioPago(total);
+                if (response.ok) {
+                    const data = await response.json();
+                    UI.addEntryToTable({
+                        owner,
+                        carType: data.tipo_vehiculo,
+                        licensePlate: data.placa,
+                        entryDate: data.hora_entrada,
+                    });
+    
+                    alert('Vehículo registrado con éxito');
+                    UI.clearFields();
+                } else {
+                    alert('Error al registrar el vehículo');
+                }
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+                alert('No se pudo conectar con el servidor');
+            }
         });
+    
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('https://backend-de-parking.onrender.com/parqueo');
+                if (response.ok) {
+                    const data = await response.json();
+                    data.forEach((entry) => {
+                        UI.addEntryToTable({
+                            owner: 'Desconocido',
+                            carType: entry.tipo_vehiculo,
+                            licensePlate: entry.placa,
+                            entryDate: entry.hora_entrada,
+                        });
+                    });
+                } else {
+                    console.error('Error al cargar los datos del servidor');
+                }
+            } catch (error) {
+                console.error('Error al conectar con el servidor:', error);
+            }
+        });
+    
+        // Manejar eliminación
+// Manejar eventos en la tabla
+document.querySelector("#tableBody").addEventListener("click", async (e) => {
+    const licensePlate = e.target.closest('tr').children[2].textContent; // Obtener placa
+
+    if (e.target.classList.contains("delete")) {
+        // Acción para eliminar vehículo
+        try {
+            const response = await fetch(`https://backend-de-parking.onrender.com/parqueo/${licensePlate}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                UI.deleteEntry(e.target);
+                alert('Vehículo eliminado con éxito');
+            } else {
+                alert('Error al eliminar el vehículo');
+            }
+        } catch (error) {
+            console.error('Error al conectar con el servidor:', error);
+            alert('No se pudo conectar con el servidor para eliminar el vehículo');
+        }
+    } else if (e.target.classList.contains("exit")) {
+        // Acción para registrar salida
+        const horaSalida = new Date().toISOString(); // Hora actual como salida
+
+        try {
+            const response = await fetch('https://backend-de-parking.onrender.com/parqueo/salida', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ placa: licensePlate, hora_salida: horaSalida }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                alert(`Salida registrada. Costo total: $${data.costo_total}`);
+                UI.deleteEntry(e.target); // Remover entrada de la tabla
+            } else {
+                const error = await response.json();
+                alert(`Error al registrar salida: ${error.error}`);
+            }
+        } catch (error) {
+            console.error('Error al conectar con el servidor:', error);
+            alert('No se pudo conectar con el servidor para registrar la salida');
+        }
+    }
+});
+
     </script>
     
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
 </body>
 </html>
